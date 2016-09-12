@@ -127,8 +127,6 @@ function displayGraph(obj)
 		var width = (parseInt(cell.substring(0,2))/10);
 
 		color.animate( {width, width}, 500 );
-		// console.log(color.css("background"));
-		// color.animate( {width: cell}, 1500 );
 
 		$("#column" + index).animate( {height: cell}, 1500 )
 		.html("<div>" + cell + "</div>");
