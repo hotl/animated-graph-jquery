@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Animated Graph</title>
+	<script src="../jquery-2.2.4.js"></script>
+	<style>
+
+		#main {
+			margin: 25px auto;
+			width: 1000px;
+		}
+		
+		table {
+			border: 2px solid black;
+			margin: 20px auto;
+			width: 75%;
+		}
+
+		th {
+			border: 1px solid black;
+			text-align: center;
+		}
+
+		td {
+			border: 1px solid black;
+			text-align: center;
+			padding: 6px;
+		}
+
+		#left, #right{
+			width: 50%;
+			float: left;
+			margin-top: 60px;
+		}
+
+		#left {
+			text-align: center;
+		}
+
+		#graph {
+			border-left: 2px solid black;
+			border-bottom: 2px solid black;
+			height: 500px;
+			position: relative;
+		}
+
+		.row {
+			position: absolute;
+			width: 100%;
+			height: 1px;
+			background: black;
+		}
+
+		.content {
+			margin: -8px 0 0 -35px;
+		}
+
+		.column {
+			position: absolute;
+			bottom: 0;
+			width: 10%;
+			margin-left: 20px;
+			text-align: center;
+		}
+
+		.column div {
+			margin-top: -20px;
+		}
+
+		button {
+			border-radius: 5px;
+			font-size: 20px;
+			margin: 0 auto;
+		}
+
+	</style>
+</head>
+
+
+<body>
+
+<div id="main">
+	
+	<div id="left">
+		<table>
+			<thead>
+				<th colspan=3>Data Table</th>
+			</thead>
+			<tbody>
+				<tr><td>Class 1</td><td></td><td style="background: gray"></tr>
+				<tr><td>Class 2</td><td></td><td style="background: blue"></tr>
+				<tr><td>Class 3</td><td></td><td style="background: purple"></tr>
+				<tr><td>Class 4</td><td></td><td style="background: pink"></tr>
+			</tbody>
+		</table>
+
+		<button id="btnDisplay">Display</button>
+	</div>
+
+	<div id="right">
+		<div id="graph">
+			<div class="row" style="bottom: 25%;"><div class="content">25%</div></div>
+			<div class="row" style="bottom: 50%;"><div class="content">50%</div></div>
+			<div class="row" style="bottom: 75%;"><div class="content">75%</div></div>
+
+			<div class="column" id="column0" style="left: 0%; background: gray"></div>
+			<div class="column" id="column1" style="left: 25%; background: blue"></div>
+			<div class="column" id="column2" style="left: 50%; background: purple"></div>
+			<div class="column" id="column3" style="left: 75%; background: pink"></div>
+		</div>
+
+	</div>
+
+</div>
+</body>
+
+<script type="text/javascript">
+
+function displayGraph(obj)
+{
+	obj.off("click");
+	$(".column").css("height", "0");
+	$("tbody tr").each(function(index) {
+		var cell = $(this).children("td").eq(1).text();
+		var color = $(this).children("td").eq(2);
+		var width = (parseInt(cell.substring(0,2))/10);
+
+		color.animate( {width, width}, 500 );
+		// console.log(color.css("background"));
+		// color.animate( {width: cell}, 1500 );
+
+		$("#column" + index).animate( {height: cell}, 1500 )
+		.html("<div>" + cell + "</div>");
+	});
+
+	setTimeout(function() {
+		obj.on("click", function() {
+			displayGraph(obj);
+		})
+	}, 1500);
+}
+
+function displayTable() {
+	$("tbody tr").each(function(index) {
+		var cell = $(this).children("td").eq(2);
+		console.log(cell);
+	});
+}
+
+
+$(document).ready(function() {
+	var displayArray = [54, 35, 80, 71];
+	var cells = $("tr td");
+
+	for (var i = 1, j = 0; i < cells.length; i+=3) {
+		cells[i].innerHTML = displayArray[j] + "%";
+		j++;
+	};
+
+	$("#btnDisplay").on("click", function() {
+		displayGraph( $(this) );
+	});
+
+
+
+})
+</script>
+
+
+</html>
